@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Style Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+  <!-- Navbar -->
+  <nav class="flex justify-between items-center bg-white shadow p-5">
+    <!-- Logo -->
+    <div class="flex items-center space-x-2">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" class="h-6" alt="YouTube Logo">
+    </div>
+
+    <!-- Signup Button -->
+    <button id="signupBtn" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Signup</button>
+  </nav>
+
+  <!-- Signup Form (Hidden by default) -->
+  <div id="formContainer" class="fixed inset-0 hidden bg-black bg-opacity-50 flex justify-center items-center">
+    <div class="bg-white p-6 rounded shadow w-80">
+      <h2 class="text-xl font-bold mb-4">Signup</h2>
+      <form id="signupForm" class="space-y-3">
+        <input type="text" id="name" placeholder="Name" class="w-full border p-2 rounded" required>
+        <input type="email" id="email" placeholder="Email" class="w-full border p-2 rounded" required>
+        <input type="password" id="password" placeholder="Password" class="w-full border p-2 rounded" required>
+        <input type="password" id="confirmPassword" placeholder="Confirm Password" class="w-full border p-2 rounded" required>
+        <button type="submit" class="w-full bg-red-500 text-white py-2 rounded hover:bg-red-600">Submit</button>
+      </form>
+      <button id="closeForm" class="mt-3 w-full bg-gray-400 text-white py-2 rounded">Close</button>
+    </div>
+  </div>
+
+  <!-- Profile + Content -->
+  <div id="content" class="hidden p-6">
+    <!-- Profile Section -->
+    <div class="flex items-center space-x-4 mb-6">
+      <img src="https://via.placeholder.com/80" class="w-16 h-16 rounded-full" alt="Profile">
+      <div>
+        <h2 class="text-lg font-bold" id="profileName"></h2>
+        <p id="profileEmail" class="text-gray-600"></p>
+      </div>
+    </div>
+
+    <!-- YouTube Style Videos (Images + Title + Comments) -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  <!-- Video Card 1 -->
+  <div class="bg-white shadow rounded overflow-hidden">
+    <img src="https://via.placeholder.com/400x200" alt="Video Thumbnail" class="w-full">
+    <div class="p-4">
+      <h3 class="font-bold">Video Title 1</h3>
+      <!-- Comment List -->
+      <div id="comments1" class="space-y-2 text-sm text-gray-600"></div>
+      <!-- Comment Form -->
+      <form onsubmit="addComment(event, 'comments1')" class="mt-2 flex space-x-2">
+        <input type="text" placeholder="Add a comment..." class="flex-1 border rounded p-1" required>
+        <button class="bg-red-500 text-white px-3 rounded">Post</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Video Card 2 -->
+  <div class="bg-white shadow rounded overflow-hidden">
+    <img src="https://via.placeholder.com/400x200" alt="Video Thumbnail" class="w-full">
+    <div class="p-4">
+      <h3 class="font-bold">Video Title 2</h3>
+      <div id="comments2" class="space-y-2 text-sm text-gray-600"></div>
+      <form onsubmit="addComment(event, 'comments2')" class="mt-2 flex space-x-2">
+        <input type="text" placeholder="Add a comment..." class="flex-1 border rounded p-1" required>
+        <button class="bg-red-500 text-white px-3 rounded">Post</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Video Card 3 -->
+  <div class="bg-white shadow rounded overflow-hidden">
+    <img src="https://via.placeholder.com/400x200" alt="Video Thumbnail" class="w-full">
+    <div class="p-4">
+      <h3 class="font-bold">Video Title 3</h3>
+      <div id="comments3" class="space-y-2 text-sm text-gray-600"></div>
+      <form onsubmit="addComment(event, 'comments3')" class="mt-2 flex space-x-2">
+        <input type="text" placeholder="Add a comment..." class="flex-1 border rounded p-1" required>
+        <button class="bg-red-500 text-white px-3 rounded">Post</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+  <script>
+    const signupBtn = document.getElementById("signupBtn");
+    const formContainer = document.getElementById("formContainer");
+    const closeForm = document.getElementById("closeForm");
+    const signupForm = document.getElementById("signupForm");
+    const content = document.getElementById("content");
+
+    const profileName = document.getElementById("profileName");
+    const profileEmail = document.getElementById("profileEmail");
+
+    // Show form
+    signupBtn.addEventListener("click", () => {
+      formContainer.classList.remove("hidden");
+    });
+
+    // Close form
+    closeForm.addEventListener("click", () => {
+      formContainer.classList.add("hidden");
+    });
+
+    // Form Submit
+    signupForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+
+      if (!name || !email || !password || !confirmPassword) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        alert("Passwords do not match.");
+        return;
+      }
+
+      // Hide form & show profile
+      formContainer.classList.add("hidden");
+      content.classList.remove("hidden");
+
+      profileName.textContent = name;
+      profileEmail.textContent = email;
+    });
+      function addComment(event, commentBoxId) {
+    event.preventDefault();
+    const input = event.target.querySelector("input");
+    const commentText = input.value.trim();
+
+    if (commentText) {
+      const commentBox = document.getElementById(commentBoxId);
+      const p = document.createElement("p");
+      p.textContent = commentText;
+      commentBox.appendChild(p);
+      input.value = ""; // clear input after submit
+    }
+  }
+  </script>
+</body>
+</html>

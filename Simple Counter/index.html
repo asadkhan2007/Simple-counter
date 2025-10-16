@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-black ">
+  <header id="intro" class="w-full h-full flex items-center justify-center mt-65 ">
+    <div class="w-full h-full text-center ">
+      <h1 class="text-5xl font-bold text-white transition ease-in-out pb-10">Simple Counter</h1>
+      <h2 class="text-2xl font-semibold text-white tracking-normal">
+        A simple tool for counting things and <br> keeping track of numbers.
+      </h2>
+    </div>
+  </header>
+  <section id="restart-section" class=" hidden flex items-center justify-center mt-10">
+    <button id="restart-btn" class=" w-10 h-10 cursor-pointer">
+    <img class="w-8 h-8" src="download__2_-removebg-preview.png" alt="">
+  </button>
+  </section>
+  <main id="main" class="hidden flex items-center justify-between space-x-6 mt-30 text-white font-bold text-4xl ">
+  <div>
+     <button id="sub-btn" class="hidden w-16 h-16 rounded-full border-2 border-white flex items-center justify-center cursor-pointer ml-10">
+    <img class="w-8 h-8" src="download (1).png" alt="">
+  </button>
+  </div>
+  <section>
+    <div id="count" class="text-[200px] text-white font-bold">0</div>
+  </section>
+ <div>
+   <button id="add-btn" class="w-16 h-16 rounded-full border-2 border-white flex items-center justify-center cursor-pointer mr-10">
+    <img class="w-8 h-8" src="download.png" alt="">
+  </button>
+ </div>
+</main>
+
+<button id="colors" class="hidden">
+  
+</button>
+
+  <script>
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        document.getElementById("intro").classList.add("hidden");
+        document.getElementById("main").classList.remove("hidden");
+      }, 3000);
+       });
+
+      window.addEventListener("load", () => {
+    setTimeout(() => {
+      document.getElementById("restart-section").classList.remove("hidden");
+    }, 3000); // 2000ms = 2 seconds
+  });
+  let subbtn = document.querySelector("#sub-btn");
+  let addbtn = document.querySelector("#add-btn");
+  let countEl = document.querySelector("#count");// yahan element ka naam clear rakho
+  let restartbtn = document.getElementById("restart-btn") 
+
+  // Number ke liye variable
+  let count = localStorage.getItem("count")
+                ? parseInt(localStorage.getItem("count"))
+                : 0;
+  countEl.textContent = count;
+  addbtn.onclick = () => {
+    count++;
+    update();
+  };
+
+  // Sub button
+  subbtn.onclick = () => {
+    if (count > 0) {
+      count--;
+      update();
+    }
+  };
+
+  // Restart button
+  restartbtn.onclick = () => {
+    count = 0;
+    update();
+  };
+
+  // Update function
+  function update() {
+    countEl.textContent = count;
+    localStorage.setItem("count", count);
+
+    // Sub button show/hide logic
+    if (count > 0) {
+      subbtn.classList.remove("hidden");
+    } else {
+      subbtn.classList.add("hidden");
+    }
+  }
+
+  let color = ["#896C6C", "#E5BEB5","#BCA88D","#9A3F3F","#D3DAD9","#67C090"]
+  let contain = document.getElementById("colors")
+
+  color.forEach((color) => {
+    let btn = document.createElement("button")
+    btn.textContent = color;
+    btn.style.background = color;
+
+   
+    btn.style.cursor = "pointer";
+
+    btn.onclick = () => {
+      document.body.style.background = color;
+    }
+    contain.appendChild(btn)
+    
+      window.addEventListener("load", () => {
+    setTimeout(() => {
+      document.getElementById("colors").classList.remove("hidden");
+    }, 3000); // 2000ms = 2 seconds
+  });
+  })
+
+  </script>
+</body>
+</html>
